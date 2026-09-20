@@ -10,8 +10,8 @@ from prompts import build_prompt
 
 def print_header():
     print("\nTradeLobbers Live TradingView Scanner")
-    print("Universe: BTCUSD | MBTC1! | ETHUSD | XRPUSD")
-    print("Timeframes: 5m | 15m | 1h")
+    print("Universe: " + " | ".join(s.label for s in SYMBOLS))
+    print("Timeframes: " + " | ".join(TIMEFRAMES))
     print("Data policy: live TradingView MCP only; unavailable data is reported, never invented.")
     print("-" * 88)
 
