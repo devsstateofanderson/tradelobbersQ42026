@@ -12,7 +12,7 @@ The launcher command is:
 
     tradelobbers
 
-It clones or hard-resets the local checkout to origin/main, verifies Python, verifies the local Codex CLI and TradingView MCP configuration, requests live TradingView data through the local Codex to TradingView MCP bridge, and scans BTCUSD, MBTC1!, ETHUSD and XRPUSD on 5m, 15m and 1h.
+It clones or hard-resets the local checkout to origin/main, verifies Python, verifies the local Codex CLI and TradingView MCP configuration, requests live TradingView data through the local Codex to TradingView MCP bridge, and scans BTCUSD, MBTC1!, ETHUSD, XRPUSD, MNQ, MCL and MCC on 5m, 15m, 1h and 4h.
 
 Unavailable symbols or fields are reported explicitly. No market data is invented.
 
@@ -29,6 +29,15 @@ Unavailable symbols or fields are reported explicitly. No market data is invente
 For CME symbols, TradingView resolves the requested contract/feed. Candidate fallbacks are retained for continuous-contract naming differences. If a requested symbol is unavailable, the scanner reports it rather than substituting fabricated data.
 
 Symbol resolution is performed by TradingView.
+
+### Timeframes
+
+- 5m
+- 15m
+- 1h
+- 4h
+
+The 4h timeframe is part of the standard scanner context.
 
 ## TradeLobbers framework
 
