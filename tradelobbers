@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+REPO_URL="https://github.com/devsstateofanderson/tradelobbersQ42026.git"
+ROOT="${TRADELOBBERS_ROOT:-$HOME/TradeLobbers_Q4_2026}"
+if ! command -v git >/dev/null 2>&1; then echo "ERROR: git is required." >&2; exit 1; fi
+if [ -d "$ROOT/.git" ]; then
+  git -C "$ROOT" remote set-url origin "$REPO_URL"
+  git -C "$ROOT" fetch origin main
+  git -C "$ROOT" checkout main >/dev/null 2>&1 || true
+  git -C "$ROOT" reset --hard origin/main
+else
+  mkdir -p "$(dirname "$ROOT")"
+  git clone "$REPO_URL" "$ROOT"
+fi
+cd "$ROOT"
+command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 is required." >&2; exit 1; }
+exec python3 scanner/cli.py --root "$ROOT" "$@"
