@@ -22,6 +22,11 @@ Unavailable symbols or fields are reported explicitly. No market data is invente
 - MBTC1!: investigate CME:MBT first, then CME:MBT1! and MBTC1!
 - ETHUSD: prefer COINBASE:ETHUSD
 - XRPUSD: prefer COINBASE:XRPUSD
+- MNQ: prefer CME:MNQ
+- MCL: prefer CME:MCL
+- MCC: prefer CME:MCC
+
+For CME symbols, TradingView resolves the requested contract/feed. Candidate fallbacks are retained for continuous-contract naming differences. If a requested symbol is unavailable, the scanner reports it rather than substituting fabricated data.
 
 Symbol resolution is performed by TradingView.
 
