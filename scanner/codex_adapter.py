@@ -1,12 +1,12 @@
 import json
 import subprocess
-from typing import Any
+from typing import Any, Dict, Optional, Tuple, List
 
 class CodexTradingViewAdapter:
     def __init__(self, codex_command: str = "codex"):
         self.codex_command = codex_command
 
-    def verify(self) -> tuple[bool, str]:
+    def verify(self) -> Tuple[bool, str]:
         try:
             version = subprocess.run([self.codex_command, "--version"], capture_output=True, text=True, timeout=10)
             if version.returncode != 0:
@@ -24,7 +24,7 @@ class CodexTradingViewAdapter:
             return False, "Timed out while verifying Codex/TradingView MCP."
 
     @staticmethod
-    def _parse_json_object(value: Any) -> dict[str, Any] | None:
+    def _parse_json_object(value: Any) -> Optional[Dict[str, Any]]:
         if isinstance(value, dict):
             return value
         if not isinstance(value, str):
@@ -34,7 +34,6 @@ class CodexTradingViewAdapter:
             obj = json.loads(candidate)
             return obj if isinstance(obj, dict) else None
         except json.JSONDecodeError:
-            # Be tolerant if the agent wrapped the JSON in markdown fences.
             if "{" in candidate and "}" in candidate:
                 start = candidate.find("{")
                 end = candidate.rfind("}") + 1
@@ -45,15 +44,15 @@ class CodexTradingViewAdapter:
                     return None
         return None
 
-    def scan(self, prompt: str) -> dict[str, Any]:
+    def scan(self, prompt: str) -> Dict[str, Any]:
         # --json is JSONL: stdout contains multiple JSON event objects, not one JSON document.
-        # We therefore extract the final agent_message text and parse that as the scanner payload.
+        # Extract the final agent_message text and parse that as the scanner payload.
         cmd = [self.codex_command, "exec", "--skip-git-repo-check", "--json", prompt]
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
         if proc.returncode != 0:
             raise RuntimeError(proc.stderr.strip() or "Codex scan failed")
 
-        events: list[dict[str, Any]] = []
+        events: List[Dict[str, Any]] = []
         for line in proc.stdout.splitlines():
             line = line.strip()
             if not line:
@@ -65,7 +64,6 @@ class CodexTradingViewAdapter:
             if isinstance(event, dict):
                 events.append(event)
 
-        # Prefer the last completed agent message, which is the final scanner response.
         for event in reversed(events):
             item = event.get("item")
             if not isinstance(item, dict):
@@ -76,7 +74,6 @@ class CodexTradingViewAdapter:
             if result is not None:
                 return result
 
-        # Compatibility with alternate Codex event/output shapes.
         for event in reversed(events):
             for key in ("result", "output", "text"):
                 result = self._parse_json_object(event.get(key))
