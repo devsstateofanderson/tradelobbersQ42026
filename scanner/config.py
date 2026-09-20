@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import os
 
-TIMEFRAMES = ("5m", "15m", "1h")
+TIMEFRAMES = ("5m", "15m", "1h", "4h")
 
 @dataclass(frozen=True)
 class SymbolSpec:
