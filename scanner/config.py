@@ -14,6 +14,9 @@ SYMBOLS = (
     SymbolSpec("MBTC1!", "CME:MBT", ("CME:MBT", "CME:MBT1!", "MBTC1!")),
     SymbolSpec("ETHUSD", "COINBASE:ETHUSD", ("COINBASE:ETHUSD", "ETHUSD")),
     SymbolSpec("XRPUSD", "COINBASE:XRPUSD", ("COINBASE:XRPUSD", "XRPUSD")),
+    SymbolSpec("MNQ", "CME:MNQ", ("CME:MNQ", "CME:MNQ1!", "MNQ")),
+    SymbolSpec("MCL", "CME:MCL", ("CME:MCL", "CME:MCL1!", "MCL")),
+    SymbolSpec("MCC", "CME:MCC", ("CME:MCC", "CME:MCC1!", "MCC")),
 )
 
 @dataclass(frozen=True)
