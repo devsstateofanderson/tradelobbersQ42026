@@ -10,7 +10,7 @@ from prompts import build_prompt
 from codex_adapter import CodexTradingViewAdapter
 
 def main():
-    assert TIMEFRAMES == ("5m", "15m", "1h")
+    assert TIMEFRAMES == ("5m", "15m", "1h", "4h")
     labels = [s.label for s in SYMBOLS]
     assert labels == ["BTCUSD", "MBTC1!", "ETHUSD", "XRPUSD", "MNQ", "MCL", "MCC"]
     assert SYMBOLS[0].preferred == "COINBASE:BTCUSD"
